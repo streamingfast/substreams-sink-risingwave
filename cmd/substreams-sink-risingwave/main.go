@@ -112,12 +112,13 @@ func (s *pubsubSink) HandleBlockScopedData(ctx context.Context, data *pbsubstrea
 	}
 	fmt.Printf("getting msg %+v\n", msg.ID)
 	res := s.topic.Publish(ctx, msg)
-	id, err := res.Get(ctx)
-	if err != nil {
-		s.logger.Warn("error publishing message", zap.String("id", id), zap.Error(err))
-		return err
-	}
-	s.logger.Debug("published message", zap.String("id", id))
+	_ = res
+	//id, err := res.Get(ctx) // this is blocking ... need to optimize maybe ?
+	//if err != nil {
+	//	s.logger.Warn("error publishing message", zap.String("id", id), zap.Error(err))
+	//	return err
+	//}
+	s.logger.Debug("published message", zap.String("id", msg.ID))
 	return nil
 
 }
